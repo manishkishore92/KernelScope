@@ -1,0 +1,11 @@
+device: sweet
+output_dir: kernelscope-output
+anykernel_path: ./AnyKernel3
+
+build:
+  arch: arm64
+  subarch: arm64
+  defconfig: vendor/sweet_defconfig
+  clang_path: ~/toolchains/clang/bin
+  gcc_prefix: aarch64-linux-android-
+  jobs: 8
