@@ -1,0 +1,22 @@
+# Android ES Kernel Profile Report
+
+**Device:** {{ data.export.device }}  
+**Brand:** {{ data.export.brand }}  
+**Maintainer:** {{ data.export.maintainer }}  
+**Kernel:** `{{ data.root }}`
+
+## Summary
+
+- Kernel version: {{ data.scan.kernel_version }}
+- Build system: {{ data.build_system.primary }}
+- Readiness score: {{ data.readiness.score }}/100
+- Defconfigs: {{ data.scan.defconfig_count }}
+- DTS files: {{ data.scan.dts_count }}
+- GKI detected: {{ 'yes' if data.gki.gki_detected else 'no' }}
+- KMI symbol lists: {{ 'yes' if data.gki.kmi_symbol_lists_detected else 'no' }}
+
+## Next Steps
+
+{% for step in data.next_steps %}
+- {{ step }}
+{% endfor %}
