@@ -1,0 +1,45 @@
+# Build System Report
+
+**Kernel path:** `{{ data.root }}`  
+**Primary build system:** {{ data.build_system.primary }}
+
+## Detected Systems
+
+{% if data.build_system.systems %}
+{% for system in data.build_system.systems %}
+- {{ system }}
+{% endfor %}
+{% else %}
+No build system was detected.
+{% endif %}
+
+## Build Configs
+
+{% if data.build_system.build_configs %}
+{% for item in data.build_system.build_configs[:50] %}
+- `{{ item }}`
+{% endfor %}
+{% else %}
+No build.config files were detected.
+{% endif %}
+
+## Bazel / Kleaf Files
+
+{% if data.build_system.bazel_files %}
+{% for item in data.build_system.bazel_files[:50] %}
+- `{{ item }}`
+{% endfor %}
+{% else %}
+No Kleaf/Bazel files were detected.
+{% endif %}
+
+## Findings
+
+{% if data.build_system.findings %}
+{% for item in data.build_system.findings %}
+- **{{ item.severity | upper }}** — {{ item.message }}{% if item.suggestion %}  
+  _Suggestion:_ {{ item.suggestion }}{% endif %}
+{% endfor %}
+{% else %}
+No build-system findings were detected.
+{% endif %}
