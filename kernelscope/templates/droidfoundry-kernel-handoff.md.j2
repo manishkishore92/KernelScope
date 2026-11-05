@@ -1,0 +1,20 @@
+# DroidFoundry Kernel Handoff
+
+**Device:** {{ data.export.device }}  
+**Maintainer:** {{ data.export.maintainer }}  
+**Kernel path:** `{{ data.root }}`
+
+## Kernel Details
+
+- Version: {{ data.scan.kernel_version }}
+- Arches: {{ data.scan.arches | join(', ') if data.scan.arches else 'not detected' }}
+- Defconfigs: {{ data.scan.defconfig_count }}
+- DTS files: {{ data.scan.dts_count }}
+- DTSI files: {{ data.scan.dtsi_count }}
+- Build system: {{ data.build_system.primary }}
+
+## Handoff Notes
+
+{% for step in data.next_steps %}
+- {{ step }}
+{% endfor %}
