@@ -1,0 +1,11 @@
+device: {{ device }}
+output_dir: kernelscope-output
+anykernel_path: ./AnyKernel3
+
+build:
+  arch: {{ arch }}
+  subarch: {{ subarch }}
+  defconfig: {{ defconfig }}
+  clang_path: ~/toolchains/clang/bin
+  gcc_prefix: aarch64-linux-android-
+  jobs: {{ jobs }}
