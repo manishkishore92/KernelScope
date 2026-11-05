@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+KERNEL_ROOT="{{ root }}"
+DEVICE="{{ config.device }}"
+
+cd "$KERNEL_ROOT"
+
+echo "KernelScope Kleaf/Bazel build helper"
+echo "Device: $DEVICE"
+echo "Detected Bazel/Kleaf files should be reviewed before running this script."
+
+if command -v bazel >/dev/null 2>&1; then
+  BAZEL=bazel
+elif command -v tools/bazel >/dev/null 2>&1; then
+  BAZEL=tools/bazel
+else
+  echo "Bazel was not found in PATH or tools/bazel."
+  exit 1
+fi
+
+# Replace the target below with the correct device/kernel target for this tree.
+$BAZEL build //common:kernel_aarch64 --config=fast
