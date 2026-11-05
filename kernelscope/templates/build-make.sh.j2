@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+KERNEL_ROOT="{{ root }}"
+ARCH="{{ config.arch }}"
+SUBARCH="{{ config.subarch }}"
+DEFCONFIG="{{ config.defconfig }}"
+JOBS="{{ config.jobs }}"
+OUT_DIR="$KERNEL_ROOT/out"
+
+cd "$KERNEL_ROOT"
+mkdir -p "$OUT_DIR"
+
+export ARCH SUBARCH
+
+if [ -n "{{ config.clang_path }}" ]; then
+  export PATH="{{ config.clang_path }}:$PATH"
+fi
+
+make O="$OUT_DIR" "$DEFCONFIG"
+make O="$OUT_DIR" -j"$JOBS"
