@@ -1,0 +1,28 @@
+# Kernel Module Map
+
+**Kernel path:** `{{ data.root }}`  
+**Kbuild module entries:** {{ data.modules.kbuild_entry_count }}  
+**Built `.ko` modules:** {{ data.modules.built_module_count }}
+
+## Module Categories
+
+{% if data.modules.categories %}
+{% for category, items in data.modules.categories.items() %}
+### {{ category.replace('_', ' ').title() }}
+{% for item in items[:20] %}
+- `{{ item }}`
+{% endfor %}
+{% endfor %}
+{% else %}
+No module categories were detected.
+{% endif %}
+
+## Module Output Hints
+
+{% if data.modules.module_out_candidates %}
+{% for item in data.modules.module_out_candidates[:30] %}
+- `{{ item }}`
+{% endfor %}
+{% else %}
+No module_outs hints were detected.
+{% endif %}
