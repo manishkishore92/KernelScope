@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KernelScope Intelligence Report</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0b1020; --card:#111a2e; --muted:#90a4c8; --text:#eef4ff; --line:#20304f; --good:#60d394; --warn:#ffd166; --bad:#ef476f; --accent:#7c9cff; }
+    body { margin:0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif; background: radial-gradient(circle at top left, #1a2b55, var(--bg) 42%); color:var(--text); }
+    main { max-width:1120px; margin:0 auto; padding:48px 20px; }
+    header { margin-bottom:28px; }
+    h1 { font-size:42px; margin:0 0 8px; }
+    h2 { margin-top:34px; }
+    .muted { color:var(--muted); }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap:16px; }
+    .card { background:rgba(17,26,46,.88); border:1px solid var(--line); border-radius:18px; padding:18px; box-shadow:0 12px 40px rgba(0,0,0,.25); }
+    .score { font-size:52px; font-weight:800; color:var(--accent); }
+    table { width:100%; border-collapse:collapse; overflow:hidden; border-radius:14px; }
+    th, td { border-bottom:1px solid var(--line); padding:12px; text-align:left; vertical-align:top; }
+    th { color:#cce0ff; background:#111a2e; }
+    code { background:#0d1528; padding:2px 6px; border-radius:6px; color:#cde1ff; }
+    .high { color:var(--bad); font-weight:700; }
+    .medium { color:var(--warn); font-weight:700; }
+    .low { color:var(--good); font-weight:700; }
+    ul { padding-left:20px; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>KernelScope Intelligence Report</h1>
+    <p class="muted"><code>{{ data.root }}</code></p>
+  </header>
+
+  <section class="grid">
+    <div class="card"><div class="muted">Readiness Score</div><div class="score">{{ data.readiness.score }}/100</div></div>
+    <div class="card"><div class="muted">Kernel Version</div><h3>{{ data.scan.kernel_version }}</h3></div>
+    <div class="card"><div class="muted">Build System</div><h3>{{ data.build_system.primary }}</h3></div>
+    <div class="card"><div class="muted">Findings</div><h3>{{ data.findings | length }}</h3></div>
+  </section>
+
+  <h2>Summary</h2>
+  <div class="card">
+    <table>
+      <tr><th>Item</th><th>Value</th></tr>
+      <tr><td>Architectures</td><td>{{ data.scan.arches | join(', ') if data.scan.arches else 'Not detected' }}</td></tr>
+      <tr><td>Defconfigs</td><td>{{ data.scan.defconfig_count }}</td></tr>
+      <tr><td>DTS/DTSI</td><td>{{ data.dts_map.file_count }}</td></tr>
+      <tr><td>Module entries</td><td>{{ data.modules.kbuild_entry_count }}</td></tr>
+      <tr><td>GKI</td><td>{{ 'Detected' if data.gki.gki_detected else 'Not detected' }}</td></tr>
+      <tr><td>KMI symbol lists</td><td>{{ 'Detected' if data.gki.kmi_symbol_lists_detected else 'Not detected' }}</td></tr>
+      <tr><td>AnyKernel3</td><td>{{ 'Detected' if data.anykernel.detected else 'Not detected' }}</td></tr>
+    </table>
+  </div>
+
+  <h2>Findings</h2>
+  <div class="card">
+    {% if data.findings %}
+    <table>
+      <tr><th>Severity</th><th>Category</th><th>Message</th><th>Suggestion</th></tr>
+      {% for item in data.findings[:50] %}
+      <tr><td class="{{ item.severity }}">{{ item.severity | upper }}</td><td>{{ item.category }}</td><td>{{ item.message or item.matched }}</td><td>{{ item.suggestion }}</td></tr>
+      {% endfor %}
+    </table>
+    {% else %}<p>No findings detected.</p>{% endif %}
+  </div>
+
+  <h2>Next Steps</h2>
+  <div class="card"><ul>{% for step in data.next_steps %}<li>{{ step }}</li>{% endfor %}</ul></div>
+</main>
+</body>
+</html>
