@@ -1,0 +1,14 @@
+# Kernel Build Environment Notes
+
+**Kernel root:** `{{ root }}`  
+**Device:** {{ config.device }}  
+**Detected build system:** {{ build_system.primary }}
+
+## Recommended Checks
+
+- Confirm the selected defconfig: `{{ config.defconfig }}`
+- Confirm ARCH/SUBARCH: `{{ config.arch }}` / `{{ config.subarch }}`
+- Confirm the expected compiler and CROSS_COMPILE/LLVM values
+- Confirm whether the tree uses Makefile, build.config/build.sh, or Kleaf/Bazel
+- After building, check Image/Image.gz/Image.gz-dtb, DTBO, vendor_boot, and module outputs
+- If packaging a flashable ZIP, run `kernelscope package-check ./AnyKernel3`
