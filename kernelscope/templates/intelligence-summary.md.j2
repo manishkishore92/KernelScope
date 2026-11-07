@@ -1,0 +1,45 @@
+# KernelScope Intelligence Report
+
+**Kernel path:** `{{ data.root }}`  
+**Readiness score:** **{{ data.readiness.score }}/100**  
+**Kernel version:** {{ data.scan.kernel_version }}  
+**Build system:** {{ data.build_system.primary }}
+
+## Score Breakdown
+
+| Area | Points |
+| --- | ---: |
+{% for name, value in data.readiness.categories.items() -%}
+| {{ name.replace('_', ' ').title() }} | {{ value }} |
+{% endfor %}
+
+## Kernel Summary
+
+| Item | Value |
+| --- | --- |
+| Architectures | {{ data.scan.arches | join(', ') if data.scan.arches else 'Not detected' }} |
+| Defconfigs | {{ data.scan.defconfig_count }} |
+| DTS files | {{ data.scan.dts_count }} |
+| DTSI files | {{ data.scan.dtsi_count }} |
+| Module entries | {{ data.modules.kbuild_entry_count }} |
+| Built modules | {{ data.modules.built_module_count }} |
+| GKI hints | {{ 'Detected' if data.gki.gki_detected else 'Not detected' }} |
+| KMI symbol lists | {{ 'Detected' if data.gki.kmi_symbol_lists_detected else 'Not detected' }} |
+| AnyKernel3 | {{ 'Detected' if data.anykernel.detected else 'Not detected' }} |
+
+## Top Findings
+
+{% if data.findings %}
+{% for item in data.findings[:20] %}
+- **{{ item.severity | upper }}** — {{ item.category }}: {{ item.message or item.matched }}{% if item.suggestion %}  
+  _Suggestion:_ {{ item.suggestion }}{% endif %}
+{% endfor %}
+{% else %}
+No major findings were detected.
+{% endif %}
+
+## Suggested Next Steps
+
+{% for step in data.next_steps %}
+- {{ step }}
+{% endfor %}
