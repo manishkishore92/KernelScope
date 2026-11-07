@@ -1,0 +1,33 @@
+# DTS Hardware Map
+
+**Kernel path:** `{{ data.root }}`  
+**DTS/DTSI files:** {{ data.dts_map.file_count }}
+
+## SoC Hints
+
+{% if data.dts_map.soc_hints %}
+{% for name, count in data.dts_map.soc_hints.items() %}
+- **{{ name }}**: {{ count }} file matches
+{% endfor %}
+{% else %}
+No strong SoC vendor hints were detected.
+{% endif %}
+
+## Hardware Categories
+
+| Category | Status | Matches |
+| --- | --- | ---: |
+{% for name, item in data.dts_map.hardware.items() -%}
+| {{ name.replace('_', ' ').title() }} | {{ 'Detected' if item.detected else 'Not detected' }} | {{ item.count }} |
+{% endfor %}
+
+## Examples
+
+{% for name, item in data.dts_map.hardware.items() %}
+{% if item.examples %}
+### {{ name.replace('_', ' ').title() }}
+{% for example in item.examples[:8] %}
+- `{{ example }}`
+{% endfor %}
+{% endif %}
+{% endfor %}
