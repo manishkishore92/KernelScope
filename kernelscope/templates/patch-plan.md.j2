@@ -1,0 +1,20 @@
+# KernelScope Patch Plan
+
+**Kernel path:** `{{ plan.root }}`  
+**Readiness score:** {{ plan.score }}/100  
+**Review items:** {{ plan.patch_count }}
+
+This file is a safe patch plan. It does not apply edits automatically. Review each item and create real commits only after confirming the tree, branch, and device requirements.
+
+## Review Items
+
+{% for item in plan.patch_items %}
+### {{ loop.index }}. {{ item.category }}
+
+- **Severity:** {{ item.severity }}
+- **Target:** `{{ item.target }}`
+- **Action:** {{ item.action }}
+- **Issue:** {{ item.message }}
+- **Suggested review:** {{ item.suggestion or 'Review manually before changing source files.' }}
+
+{% endfor %}
