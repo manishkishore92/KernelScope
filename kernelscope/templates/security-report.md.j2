@@ -1,0 +1,25 @@
+# Security Configuration Report
+
+**Kernel path:** `{{ data.root }}`  
+**Defconfigs inspected:** {{ data.security.inspected_count }} / {{ data.security.defconfig_count }}
+
+## Inspected Defconfigs
+
+{% if data.security.inspected %}
+{% for item in data.security.inspected %}
+- `{{ item.path }}` — {{ item.option_count }} options
+{% endfor %}
+{% else %}
+No defconfig files were available for security analysis.
+{% endif %}
+
+## Findings
+
+{% if data.security.findings %}
+{% for item in data.security.findings %}
+- **{{ item.severity | upper }}** — {{ item.message }}{% if item.file %} (`{{ item.file }}`){% endif %}{% if item.suggestion %}  
+  _Suggestion:_ {{ item.suggestion }}{% endif %}
+{% endfor %}
+{% else %}
+No security findings were detected from inspected defconfigs.
+{% endif %}
