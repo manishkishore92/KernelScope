@@ -1,0 +1,45 @@
+# Kernel Symbol Report
+
+**Kernel path:** `{{ data.root }}`
+
+## Summary
+
+| Item | Value |
+| --- | ---: |
+| Source files scanned | {{ data.source_files_scanned }} |
+| Module.symvers files | {{ data.symvers_file_count }} |
+| Symvers symbols | {{ data.symvers_symbol_count }} |
+| Exported symbol calls | {{ data.exported_symbol_count }} |
+| Unique exported symbols | {{ data.unique_exported_symbol_count }} |
+| KMI/ABI symbol list files | {{ data.kmi_file_count }} |
+
+## KMI / ABI Files
+
+{% if data.kmi_files %}
+{% for file in data.kmi_files[:50] %}
+- `{{ file }}`
+{% endfor %}
+{% else %}
+No ABI/KMI symbol list files were detected.
+{% endif %}
+
+## Duplicate Exported Symbols
+
+{% if data.duplicate_exports %}
+{% for item in data.duplicate_exports[:30] %}
+- `{{ item.symbol }}` appears {{ item.count }} times{% if item.files %}: {{ item.files | join(', ') }}{% endif %}
+{% endfor %}
+{% else %}
+No duplicate exported symbols were detected in scanned source files.
+{% endif %}
+
+## Findings
+
+{% if data.findings %}
+{% for item in data.findings %}
+- **{{ item.severity | upper }}** — {{ item.category }}: {{ item.message }}{% if item.suggestion %}  
+  _Suggestion:_ {{ item.suggestion }}{% endif %}
+{% endfor %}
+{% else %}
+No symbol-specific findings were detected.
+{% endif %}
