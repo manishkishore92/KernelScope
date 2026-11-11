@@ -1,0 +1,29 @@
+# Kernel Release Check
+
+**Kernel path:** `{{ data.kernel }}`  
+**Package path:** `{{ data.package }}`  
+**Kernel version:** {{ data.kernel_version }}  
+**Package ready:** {{ 'Yes' if data.package_ready else 'Needs review' }}
+
+## Artifacts
+
+{% if data.artifacts %}
+| File | Size | SHA-256 |
+| --- | ---: | --- |
+{% for item in data.artifacts %}
+| `{{ item.path }}` | {{ item.human_size }} | {{ item.sha256 if item.sha256 else 'not calculated' }} |
+{% endfor %}
+{% else %}
+No release artifacts were detected.
+{% endif %}
+
+## Findings
+
+{% if data.findings %}
+{% for item in data.findings %}
+- **{{ item.severity | upper }}** — {{ item.category }}: {{ item.message }}{% if item.suggestion %}  
+  _Suggestion:_ {{ item.suggestion }}{% endif %}
+{% endfor %}
+{% else %}
+No release package findings were detected.
+{% endif %}
