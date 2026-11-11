@@ -1,0 +1,60 @@
+# KernelScope Report
+
+**Kernel tree:** `{{ data.root }}`  
+**Readiness score:** `{{ data.score }}/100`
+
+## Summary
+
+| Item | Value |
+| --- | --- |
+| Kernel version | {{ data.summary.kernel_version }} |
+| Architectures | {{ data.summary.arches | join(', ') if data.summary.arches else 'Not detected' }} |
+| Defconfigs | {{ data.summary.defconfigs }} |
+| DTS files | {{ data.summary.dts_files }} |
+| DTSI files | {{ data.summary.dtsi_files }} |
+| Kbuild entries | {{ data.summary.module_entries }} |
+| AnyKernel3 detected | {{ 'Yes' if data.summary.anykernel else 'No' }} |
+| Missing build tools | {{ data.summary.missing_tools }} |
+
+## Findings
+
+{% if data.findings %}
+{% for item in data.findings %}
+- **{{ item.severity | upper }} / {{ item.category }}:** {{ item.message }}{% if item.suggestion %}  
+  _Suggestion:_ {{ item.suggestion }}{% endif %}
+{% endfor %}
+{% else %}
+No major findings detected.
+{% endif %}
+
+## Defconfig Overview
+
+{% if data.defconfigs.defconfigs %}
+{% for item in data.defconfigs.defconfigs %}
+### {{ item.name }}
+
+- Options: {{ item.option_count }}
+- Enabled: {{ item.enabled }}
+- Modules: {{ item.modules }}
+- Not set: {{ item.not_set }}
+
+{% endfor %}
+{% else %}
+No defconfigs were inspected.
+{% endif %}
+
+## DTS Overview
+
+- Total DTS/DTSI files: {{ data.dts.total_files }}
+- Vendor hints: {{ data.dts.vendor_hints }}
+- Overlay candidates: {{ data.dts.overlay_candidates | length }}
+
+## Toolchain
+
+{% for tool in data.toolchain.tools %}
+- `{{ tool.tool }}`: {{ 'found' if tool.found else 'missing' }}{% if tool.path %} — `{{ tool.path }}`{% endif %}
+{% endfor %}
+
+## Notes
+
+KernelScope reports are advisory. Always review generated recommendations before changing kernel configuration, DTS files, or release packaging.
