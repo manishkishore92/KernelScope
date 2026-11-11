@@ -1,0 +1,33 @@
+# KernelScope Recommendation Plan
+
+**Total findings:** {{ plan.summary.finding_count }}
+
+## Immediate Checks
+
+{% for item in plan.immediate %}
+- {{ item }}
+{% endfor %}
+
+## Before Building
+
+{% for item in plan.before_build %}
+- {{ item }}
+{% endfor %}
+
+## Before Release
+
+{% for item in plan.before_release %}
+- {{ item }}
+{% endfor %}
+
+## Automation Workflow
+
+{% for item in plan.automation %}
+- {{ item }}
+{% endfor %}
+
+## Top Finding Categories
+
+{% for item in plan.summary.top_categories %}
+- **{{ item.category }}:** {{ item.count }}
+{% endfor %}
