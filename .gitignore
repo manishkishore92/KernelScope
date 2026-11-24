@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Kernel/build outputs
+out/
+*.ko
+*.o
+*.cmd
+modules.order
+Module.symvers
+Image
+Image.gz
+Image.gz-dtb
+dtbo.img
+vendor_boot.img
+
+# KernelScope generated output
+kernelscope-output/
+kernelscope-report/
+build-kernel.sh
+*.log
+
+# Editors
+.idea/
+.vscode/
+.DS_Store
